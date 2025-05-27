@@ -11,7 +11,7 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Mostrar versão do Python (verificação)
+      - name: Mostrar versão do Python
         run: python3.10 --version
 
       - name: Atualizar pip
