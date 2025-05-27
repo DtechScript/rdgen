@@ -10,6 +10,12 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
+      - name: List current directory
+        run: ls -lha
+
+      - name: List rdgen folder
+        run: ls -lha rdgen || echo "rdgen folder not found"
+
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -22,6 +28,7 @@ jobs:
 
       - name: Build EXE (Windows target)
         run: cargo build --release --target x86_64-pc-windows-gnu
+        working-directory: rdgen  # Ajusta se necessário
 
       - name: List output EXE
-        run: ls -lh target/x86_64-pc-windows-gnu/release/
+        run: ls -lh rdgen/target/x86_64-pc-windows-gnu/release/
