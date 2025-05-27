@@ -1,4 +1,4 @@
-name: Build EXE
+name: Build Windows EXE
 
 on:
   workflow_dispatch:
@@ -6,33 +6,28 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Debug - Mostrar diretório atual
+      - name: Show current directory
         run: pwd
 
-      - name: Debug - Listar tudo no diretório atual
+      - name: List files
         run: ls -lha
 
-      - name: Debug - Procurar Cargo.toml
-        run: find . -name Cargo.toml
-
-      - name: Instalar Rust
+      - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
           target: x86_64-pc-windows-gnu
 
-      - name: Adicionar target Windows
+      - name: Add Windows target
         run: rustup target add x86_64-pc-windows-gnu
 
       - name: Build EXE (Windows target)
         run: cargo build --release --target x86_64-pc-windows-gnu
-        working-directory: rdgen  # <- Ajusta depois com base no output do passo acima
 
-      - name: Listar EXE gerado
-        run: ls -lh rdgen/target/x86_64-pc-windows-gnu/release/
+      - name: List output EXE
+        run: ls -lh target/x86_64-pc-windows-gnu/release/
