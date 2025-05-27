@@ -11,14 +11,14 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Ver estrutura de diretórios
+      - name: Mostrar estrutura de diretórios
         run: |
           echo "PWD:"
           pwd
-          echo "Conteúdo:"
+          echo "Conteúdo atual:"
           ls -la
-          echo "Recursivo:"
-          ls -R
+          echo "Conteúdo do projeto clonado:"
+          ls -la rdgen/rdgen
 
       - name: Mostrar versão do Python
         run: python3.10 --version
@@ -27,7 +27,11 @@ jobs:
         run: python3.10 -m pip install --upgrade pip
 
       - name: Instalar dependências
-        run: python3.10 -m pip install -r rdgen/requirements.txt
+        run: |
+          cd rdgen/rdgen
+          python3.10 -m pip install -r requirements.txt
 
       - name: Rodar testes Django
-        run: python3.10 rdgen/manage.py test
+        run: |
+          cd rdgen/rdgen
+          python3.10 manage.py test
