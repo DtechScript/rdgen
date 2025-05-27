@@ -1,33 +1,28 @@
-name: Build and Test Django App
+name: Build RDGen Django
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: self-hosted  # ou 'ubuntu-latest' se não estiver usando runner próprio
+    runs-on: self-hosted
 
     steps:
-      - name: Checkout code
+      - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+      - name: Mostrar versão do Python (verificação)
+        run: python3.10 --version
 
-      - name: Install dependencies
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install -r rdgen/rdgen/requirements.txt
+      - name: Atualizar pip
+        run: python3.10 -m pip install --upgrade pip
 
-      - name: Run Django checks
+      - name: Instalar dependências
         run: |
-          source venv/bin/activate
-          python rdgen/rdgen/manage.py check
+          cd rdgen/rdgen
+          python3.10 -m pip install -r requirements.txt
+
+      - name: Rodar testes Django
+        run: |
+          cd rdgen/rdgen
+          python3.10 manage.py test
